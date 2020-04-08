@@ -1,0 +1,12 @@
+D:\VS Pojects\KochBD\KochBD\bin\Debug\Database1.mdf
+D:\VS Pojects\KochBD\KochBD\bin\Debug\Database1_log.ldf
+D:\VS Pojects\KochBD\KochBD\bin\Debug\KochBD.exe.config
+D:\VS Pojects\KochBD\KochBD\bin\Debug\KochBD.exe
+D:\VS Pojects\KochBD\KochBD\bin\Debug\KochBD.pdb
+D:\VS Pojects\KochBD\KochBD\obj\Debug\KochBD.csprojAssemblyReference.cache
+D:\VS Pojects\KochBD\KochBD\obj\Debug\KochBD.Form1.resources
+D:\VS Pojects\KochBD\KochBD\obj\Debug\KochBD.Properties.Resources.resources
+D:\VS Pojects\KochBD\KochBD\obj\Debug\KochBD.csproj.GenerateResource.cache
+D:\VS Pojects\KochBD\KochBD\obj\Debug\KochBD.csproj.CoreCompileInputs.cache
+D:\VS Pojects\KochBD\KochBD\obj\Debug\KochBD.exe
+D:\VS Pojects\KochBD\KochBD\obj\Debug\KochBD.pdb
