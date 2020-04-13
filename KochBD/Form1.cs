@@ -13,45 +13,16 @@ namespace KochBD
 {
     public partial class Form1 : Form
     {
-        private string connection = global::KochBD.Properties.Settings.Default.Database1ConnectionString;
 
-        DataGridView dirDVG;
 
+        
+        
         public Form1()
         {
-            InitializeComponent();
-                                                  
-            
+            InitializeComponent();            
         }
         
-        void updateAbonentDB()
-        { 
-           var request = "SELECT * FROM dbo.Kochenyuk_abonent";
-           var adapter = new SqlDataAdapter(request, connection);
-           var abonentTable = new DataTable();
-           adapter.Fill(abonentTable);
-           abonDVG.DataSource = abonentTable;
-           abonDVG.Columns["id"].Visible = false;
-        }
-
-        void updateContactDB()
-        {
-            var request = "SELECT * FROM dbo.Kochenyuk_contact";
-            var adapter = new SqlDataAdapter(request, connection);
-            var contactTable = new DataTable();
-            adapter.Fill(contactTable);
-            contDVG.DataSource = contactTable;
-        }
-        void updateProviderDB()
-        {
-            var request = "SELECT * FROM dbo.Kochenyuk_provider";
-            var adapter = new SqlDataAdapter(request, connection);
-            var providerTable = new DataTable();
-            adapter.Fill(providerTable);
-            provDVG.DataSource = providerTable;
-        }
-
-                    
+       
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -62,11 +33,131 @@ namespace KochBD
             updateAbonentDB();
             updateContactDB();
             updateProviderDB();
+            updateHasContactDB();
             //
             //abonDVG.Columns["name"].HeaderText = "Имя";
             //contDVG.Columns["id"].Visible = false;
             //provDVG.Columns["id"].Visible = false;
         }
 
+       
+
+        private void findAbonentButton_Click(object sender, EventArgs e)
+        {
+            List<Control> controls = new List<Control>();
+            
+            var id = AddIdTextBox();
+            controls.Add(id);
+           
+            Request = "SELECT * FROM dbo.Kochenyuk_abonent WHERE id={0}";
+
+            var run = AddRunButton(controls);
+            
+            controls.Add(run);
+
+            AddHideButton(controls);          
+        }
+
+
+        
+        
+        private void addAbonentButton_Click(object sender, EventArgs e)
+        {
+
+            List<Control> controls = new List<Control>();
+           
+            var surName = AddSurNameTextBox();
+            controls.Add(surName);
+
+            var name = AddNameTextBox();
+            controls.Add(name);
+
+            var patronymic = AddPatronymicTextBox();
+            controls.Add(patronymic);
+
+            var birthDate = AddBirthTextBox();
+            controls.Add(birthDate);
+
+            var comment = AddCommentTextBox();
+            controls.Add(comment);
+
+            var adress = AddAdressTextBox();
+            controls.Add(adress);
+
+            string request = "";
+
+            var run = AddRunButton(controls);
+            controls.Add(run);
+
+            AddHideButton(controls);
+
+            
+        }
+
+        private void changeAbonentButton_Click(object sender, EventArgs e)
+        {
+            List<Control> controls = new List<Control>();
+
+            var id = AddIdTextBox();
+            controls.Add(id);
+
+            var surName = AddSurNameTextBox();
+            controls.Add(surName);
+
+            var name = AddNameTextBox();
+            controls.Add(name);
+
+            var patronymic = AddPatronymicTextBox();
+            controls.Add(patronymic);
+
+            var birthDate = AddBirthTextBox();
+            controls.Add(birthDate);
+
+            var comment = AddCommentTextBox();
+            controls.Add(comment);
+
+            var adress = AddAdressTextBox();
+            controls.Add(adress);
+
+            string request = "";
+
+            var run = AddRunButton(controls);
+            controls.Add(run);
+
+            AddHideButton(controls);
+        }
+
+        private void deleteAbonentButton_Click(object sender, EventArgs e)
+        {
+            List<Control> controls = new List<Control>();
+
+            var id = AddIdTextBox();
+            controls.Add(id);
+
+            var surName = AddSurNameTextBox();
+            controls.Add(surName);
+
+            var name = AddNameTextBox();
+            controls.Add(name);
+
+            var patronymic = AddPatronymicTextBox();
+            controls.Add(patronymic);
+
+            var birthDate = AddBirthTextBox();
+            controls.Add(birthDate);
+
+            var comment = AddCommentTextBox();
+            controls.Add(comment);
+
+            var adress = AddAdressTextBox();
+            controls.Add(adress);
+
+            string request = "";
+
+            var run = AddRunButton(controls);
+            controls.Add(run);
+
+            AddHideButton(controls);
+        }
     }
 }
