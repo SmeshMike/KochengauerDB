@@ -146,6 +146,21 @@ namespace KochBD
                     dict.Add((int)row["id"], row["company"].ToString());
                 }
                 form.ProviderData = dict;
+                dict.Clear();
+
+                List<string> qwe = new List<string>();
+
+                request = "SELECT DISTINCT  type From Kochenyuk_contact";
+                adapter = new SqlDataAdapter(request, connectionString);
+                prTable = new DataTable();
+                adapter.Fill(prTable);
+
+                foreach (DataRow row in prTable.Rows)
+                {
+                    qwe.Add(row["type"].ToString());
+                }
+                form.TypeData = qwe;
+
             }
             var res = form.ShowDialog();
             if (res == DialogResult.OK)
@@ -154,24 +169,52 @@ namespace KochBD
                 var name = form.nameTextBox.Text;
                 var patronymic = form.patronymicTextBox.Text;
                 var address = form.adressTextBox.Text;
-                var comment = form.commentTextBox.Text;
-                var connection = new SqlConnection(connectionString);
-                var command = new SqlCommand();
+                var comment = form.commentTextBox.Text;   
+
                 var providerId = form.ProviderId;
-                command.CommandType = CommandType.Text;
+
+                var number = form.numberTextBox.Text;
+                var type = form.typeComboBox.Text;
                 var birthdate = Convert.ToDateTime(form.birthDateTextBox.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
-                
 
-                command.CommandText = string.Format(@"INSERT INTO Kochenyuk_abonent (surname, name, patronymic, adress, comments, birthdate) VALUES (N'{0}',N'{1}',N'{2}',N'{3}',N'{4}',N'{5}')",
-                                                        surname, name, patronymic, address, comment, birthdate);
-                command.Connection = connection;
-
+                var connection = new SqlConnection(connectionString);
                 connection.Open();
-                command.ExecuteNonQuery();
-                connection.Close();
+
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        var command = new SqlCommand();
+                        command.Connection = connection;
+                        command.CommandType = CommandType.Text;
+                        command.Transaction = transaction;
+                        
+                        command.CommandText = string.Format(@"INSERT INTO Kochenyuk_abonent (surname, name, patronymic, adress, comments, birthdate) VALUES (N'{0}',N'{1}',N'{2}',N'{3}',N'{4}',N'{5}')",
+                                                                surname, name, patronymic, address, comment, birthdate);
+                        command.ExecuteNonQuery();
+                        command.CommandText = string.Format("INSERT INTO Kochenyuk_contact VALUES (N'{0}',N'{1}',N'{2}')",
+                                                             number, type, providerId);
+                        command.ExecuteNonQuery();
+                        
+                        command.CommandText = string.Format("Insert into dbo.Kochenyuk_abonent_has_contact values" +
+                                                            "((select id from dbo.Kochenyuk_abonent where name=N'{0}'), (select id from dbo.Kochenyuk_contact where Phone = N'{1}'))",
+                                                             name, number);
+                        command.ExecuteNonQuery();
+
+                        transaction.Commit();
+                        connection.Close();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
+                }
 
             }
             updateAbonentDB();
+            updateContactDB();
+            updateDirectoryDB();
         }
 
         private void editButton_Click(object sender, EventArgs e)

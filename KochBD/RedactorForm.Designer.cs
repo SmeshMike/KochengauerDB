@@ -37,6 +37,8 @@
             this.button_OK = new System.Windows.Forms.Button();
             this.button_cancel = new System.Windows.Forms.Button();
             this.birthDateTextBox = new System.Windows.Forms.TextBox();
+            this.typeComboBox = new System.Windows.Forms.ComboBox();
+            this.numberTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // providerComboBox
@@ -47,7 +49,7 @@
             this.providerComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.471698F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.providerComboBox.ForeColor = System.Drawing.Color.Black;
             this.providerComboBox.FormattingEnabled = true;
-            this.providerComboBox.Location = new System.Drawing.Point(278, 230);
+            this.providerComboBox.Location = new System.Drawing.Point(280, 245);
             this.providerComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.providerComboBox.Name = "providerComboBox";
             this.providerComboBox.Size = new System.Drawing.Size(145, 21);
@@ -74,7 +76,7 @@
             // 
             this.adressTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.471698F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.adressTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.adressTextBox.Location = new System.Drawing.Point(11, 112);
+            this.adressTextBox.Location = new System.Drawing.Point(13, 106);
             this.adressTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.adressTextBox.Name = "adressTextBox";
             this.adressTextBox.Size = new System.Drawing.Size(412, 20);
@@ -113,7 +115,7 @@
             // 
             this.surnameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.471698F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.surnameTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.surnameTextBox.Location = new System.Drawing.Point(11, 22);
+            this.surnameTextBox.Location = new System.Drawing.Point(13, 22);
             this.surnameTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.surnameTextBox.Name = "surnameTextBox";
             this.surnameTextBox.Size = new System.Drawing.Size(110, 20);
@@ -125,7 +127,7 @@
             // button_OK
             // 
             this.button_OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button_OK.Location = new System.Drawing.Point(348, 290);
+            this.button_OK.Location = new System.Drawing.Point(350, 290);
             this.button_OK.Margin = new System.Windows.Forms.Padding(2);
             this.button_OK.Name = "button_OK";
             this.button_OK.Size = new System.Drawing.Size(75, 24);
@@ -148,20 +150,45 @@
             // 
             this.birthDateTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.471698F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.birthDateTextBox.ForeColor = System.Drawing.Color.Gray;
-            this.birthDateTextBox.Location = new System.Drawing.Point(140, 69);
+            this.birthDateTextBox.Location = new System.Drawing.Point(13, 61);
             this.birthDateTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.birthDateTextBox.Name = "birthDateTextBox";
-            this.birthDateTextBox.Size = new System.Drawing.Size(146, 20);
+            this.birthDateTextBox.Size = new System.Drawing.Size(110, 20);
             this.birthDateTextBox.TabIndex = 27;
             this.birthDateTextBox.Text = "Введите дату рождения";
             this.birthDateTextBox.Enter += new System.EventHandler(this.birthDateTextBox_Enter);
             this.birthDateTextBox.Leave += new System.EventHandler(this.birthDateTextBox_Leave);
+            // 
+            // typeComboBox
+            // 
+            this.typeComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.471698F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.typeComboBox.ForeColor = System.Drawing.Color.Black;
+            this.typeComboBox.FormattingEnabled = true;
+            this.typeComboBox.Location = new System.Drawing.Point(162, 61);
+            this.typeComboBox.Name = "typeComboBox";
+            this.typeComboBox.Size = new System.Drawing.Size(110, 21);
+            this.typeComboBox.TabIndex = 28;
+            this.typeComboBox.Text = "Выберите тип";
+            // 
+            // numberTextBox
+            // 
+            this.numberTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.471698F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.numberTextBox.ForeColor = System.Drawing.Color.Gray;
+            this.numberTextBox.Location = new System.Drawing.Point(313, 61);
+            this.numberTextBox.Name = "numberTextBox";
+            this.numberTextBox.Size = new System.Drawing.Size(112, 20);
+            this.numberTextBox.TabIndex = 29;
+            this.numberTextBox.Text = "Введите номер";
+            this.numberTextBox.Enter += new System.EventHandler(this.numberTextBox_Enter);
+            this.numberTextBox.Leave += new System.EventHandler(this.numberTextBox_Leave);
             // 
             // RedactorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(436, 324);
+            this.Controls.Add(this.numberTextBox);
+            this.Controls.Add(this.typeComboBox);
             this.Controls.Add(this.birthDateTextBox);
             this.Controls.Add(this.providerComboBox);
             this.Controls.Add(this.commentTextBox);
@@ -188,5 +215,7 @@
         private System.Windows.Forms.Button button_OK;
         private System.Windows.Forms.Button button_cancel;
         public System.Windows.Forms.TextBox birthDateTextBox;
+        public System.Windows.Forms.ComboBox typeComboBox;
+        public System.Windows.Forms.TextBox numberTextBox;
     }
 }

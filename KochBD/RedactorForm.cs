@@ -157,6 +157,28 @@ namespace KochBD
             }
         }
 
+
+        private void numberTextBox_Enter(object sender, EventArgs e)
+        {
+            if (numberTextBox.ForeColor == Color.Gray)
+            {
+                numberTextBox.Text = "";
+                numberTextBox.Font = new Font(numberTextBox.Font, FontStyle.Regular);
+                numberTextBox.ForeColor = Color.Black;
+            }
+        }
+
+        private void numberTextBox_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(numberTextBox.Text))
+            {
+                numberTextBox.Text = "Введите дату рождения";
+                numberTextBox.Font = new Font(numberTextBox.Font, FontStyle.Italic);
+                numberTextBox.ForeColor = Color.Gray;
+            }
+        }
+
+
         public Dictionary<int, string> ProviderData
         {
             set
@@ -166,7 +188,26 @@ namespace KochBD
             }
         }
 
+        public List<string> TypeData
+        {
+            set
+            {
+                typeComboBox.DataSource = value.ToArray();
+                typeComboBox.DisplayMember = "value";
+            }
+        }
+
+
+
         public int ProviderId
+        {
+            get
+            {
+                return ((KeyValuePair<int, string>)providerComboBox.SelectedItem).Key;
+            }
+        }
+
+        public int TypeId
         {
             get
             {
