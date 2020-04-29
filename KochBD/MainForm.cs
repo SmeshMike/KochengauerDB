@@ -8,13 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace KochBD
 {
     public partial class MainForm : Form
     {
 
-        string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Database1.mdf";
+        //string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\Database1.mdf";
+        string connectionString = string.Format("Data Source = (LocalDB)\\MSSQLLocalDB;AttachDbFilename={0};Integrated Security = True", GetConnectionSting());
+
+        public static string GetConnectionSting()
+        {
+            var exeDirectory = Environment.CurrentDirectory;
+            exeDirectory = exeDirectory.Substring(0, exeDirectory.Length - 10);
+            var dbDirectory = "Database1.mdf";
+            return Path.Combine(exeDirectory, dbDirectory);
+        }
         void updateAbonentDB()
         {
             var request = "SELECT * FROM Kochenyuk_abonent";
@@ -23,6 +33,7 @@ namespace KochBD
             adapter.Fill(contactTable);
             abonDVG.DataSource = contactTable;
             abonDVG.Columns["id"].Visible = false;
+            var exeDirectory = Environment.CurrentDirectory;
         }
 
         void updateContactDB()
@@ -46,7 +57,9 @@ namespace KochBD
             provDVG.DataSource = contactTable;
             provDVG.Columns["id"].Visible = false;
             provDVG.Columns["company"].HeaderText = "Название";
-            provDVG.Columns["score"].Visible = false; 
+            provDVG.Columns["score"].Visible = false;
+
+            
         }
 
         void updateDirectoryDB()
@@ -78,7 +91,7 @@ namespace KochBD
             directDVG.Columns["patronymic"].HeaderText = "Отчество";
             directDVG.Columns["surname"].HeaderText = "Фамилия";
             directDVG.Columns["adress"].HeaderText = "Адрес";
-            directDVG.Columns["phone"].HeaderText = "Телефон";
+            //directDVG.Columns["phone"].HeaderText = "Телефон";
             directDVG.Columns["type"].HeaderText = "Тип";
         }
 
@@ -196,7 +209,7 @@ namespace KochBD
                                                              number, type, providerId);
                         command.ExecuteNonQuery();
                         
-                        command.CommandText = string.Format("Insert into dbo.Kochenyuk_abonent_has_contact values" +
+                        command.CommandText = string.Format("INSERT INTO dbo.Kochenyuk_abonent_has_contact values" +
                                                             "((select id from dbo.Kochenyuk_abonent where name=N'{0}'), (select id from dbo.Kochenyuk_contact where Phone = N'{1}'))",
                                                              name, number);
                         command.ExecuteNonQuery();
@@ -219,7 +232,7 @@ namespace KochBD
 
         private void editButton_Click(object sender, EventArgs e)
         {
-            var row = abonDVG.SelectedRows.Count > 0 ? abonDVG.SelectedRows[0] : null;
+            var row = directDVG.SelectedRows.Count > 0 ? directDVG.SelectedRows[0] : null;
             if (row == null)
             {
                 MessageBox.Show(" Сначала выберите строчку", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -251,6 +264,10 @@ namespace KochBD
             form.birthDateTextBox.ForeColor = Color.Black;
             form.birthDateTextBox.Font = new Font(form.birthDateTextBox.Font, FontStyle.Regular);
 
+            form.numberTextBox.Text = row.Cells["phone"].Value.ToString();
+            form.numberTextBox.ForeColor = Color.Black;
+            form.numberTextBox.Font = new Font(form.numberTextBox.Font, FontStyle.Regular);
+
             var res = form.ShowDialog();
             if (res == DialogResult.OK)
             {
@@ -259,34 +276,46 @@ namespace KochBD
                 var patronymic = form.patronymicTextBox.Text;
                 var adress = form.adressTextBox.Text;
                 var comment = form.commentTextBox.Text;
+                var phone = form.numberTextBox.Text;
+                var type = form.typeComboBox.Text;
                 var id = row.Cells["id"].Value.ToString();
                 var connection = new SqlConnection(connectionString);
                 var birthdate = Convert.ToDateTime(form.birthDateTextBox.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
                 connection.Open();
-                var request = string.Format("UPDATE  Kochenyuk_abonent SET surname=N'{0}',name=N'{1}', patronymic=N'{2}', adress=N'{3}', comments=N'{4}', birthdate='{5}' WHERE id={6}", surname, name, patronymic, adress, comment,birthdate, id);
+                var request = string.Format(@"UPDATE  Kochenyuk_abonent SET surname=N'{0}',name=N'{1}', patronymic=N'{2}', adress=N'{3}', comments=N'{4}', birthdate='{5}' WHERE id={6}
+                                              UPDATE  Kochenyuk_contact SET Phone=N'{7}', type=N'{8}'",
+                                              surname, name, patronymic, adress, comment,birthdate, id, phone, type);
                 var command = new SqlCommand(request, connection);
                 command.ExecuteNonQuery();
                 connection.Close();
                 updateAbonentDB();
+                updateDirectoryDB();
+                updateContactDB();
                 
             }
         }
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            var dgrow = abonDVG.SelectedRows.Count > 0 ? abonDVG.SelectedRows[0] : null;
-            if (dgrow == null)
+            var row = directDVG.SelectedRows.Count > 0 ? directDVG.SelectedRows[0] : null;
+            if (row == null)
             {
-                MessageBox.Show(" Сначала выберите строчку", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Выберите строчку в справочнике", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var id = dgrow.Cells["id"].Value.ToString();
+            var id = row.Cells["id"].Value.ToString();
+            var phone = row.Cells["phone"].Value.ToString();
             var connection = new SqlConnection(connectionString);
             connection.Open();
-            var request = string.Format("DELETE  FROM  Kochenyuk_abonent  WHERE id={0}", id);
+            var request = string.Format(@"DELETE dbo.Kochenyuk_abonent_has_contact where contact_id = (select id from dbo.Kochenyuk_contact where Phone = N'{0}')
+                                          DELETE dbo.Kochenyuk_contact where Phone = N'{0}'
+                                          DELETE dbo.Kochenyuk_abonent where id ={1}",phone, id);
+                            
             var command = new SqlCommand(request, connection);
             command.ExecuteNonQuery();
             connection.Close();
             updateAbonentDB();
+            updateContactDB();
+            updateDirectoryDB();
         }
 
         private void MainForm_Load(object sender, EventArgs e)

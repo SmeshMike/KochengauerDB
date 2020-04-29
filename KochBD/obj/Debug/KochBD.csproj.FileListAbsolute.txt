@@ -15,7 +15,6 @@ C:\Repository\KochengauerDB\KochBD\bin\Debug\Database1_log.ldf
 C:\Repository\KochengauerDB\KochBD\bin\Debug\KochBD.exe.config
 C:\Repository\KochengauerDB\KochBD\bin\Debug\KochBD.exe
 C:\Repository\KochengauerDB\KochBD\bin\Debug\KochBD.pdb
-C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.csprojAssemblyReference.cache
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.Properties.Resources.resources
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.csproj.GenerateResource.cache
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.csproj.CoreCompileInputs.cache
@@ -23,3 +22,4 @@ C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.exe
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.pdb
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.MainForm.resources
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.RedactorForm.resources
+C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.csprojAssemblyReference.cache
