@@ -268,6 +268,43 @@ namespace KochBD
             form.numberTextBox.ForeColor = Color.Black;
             form.numberTextBox.Font = new Font(form.numberTextBox.Font, FontStyle.Regular);
 
+
+
+            var request = "SELECT * FROM Kochenyuk_provider";
+            var adapter = new SqlDataAdapter(request, connectionString);
+            var prTable = new DataTable();
+            adapter.Fill(prTable);
+            var dict = new Dictionary<int, string>();
+            foreach (DataRow tempRow in prTable.Rows)
+            {
+                dict.Add((int)tempRow["id"], tempRow["company"].ToString());
+            }
+            form.ProviderData = dict;
+            dict.Clear();
+
+            List<string> qwe = new List<string>();
+
+            request = "SELECT DISTINCT  type From Kochenyuk_contact";
+            adapter = new SqlDataAdapter(request, connectionString);
+            prTable = new DataTable();
+            adapter.Fill(prTable);
+
+            foreach (DataRow tempRow in prTable.Rows)
+            {
+                qwe.Add(tempRow["type"].ToString());
+            }
+            form.TypeData = qwe;
+
+
+            form.providerComboBox.Text = row.Cells["company"].Value.ToString();
+            form.providerComboBox.ForeColor = Color.Black;
+            form.providerComboBox.Font = new Font(form.providerComboBox.Font, FontStyle.Regular);
+
+            form.typeComboBox.Text = row.Cells["type"].Value.ToString();
+            form.typeComboBox.ForeColor = Color.Black;
+            form.typeComboBox.Font = new Font(form.typeComboBox.Font, FontStyle.Regular);
+
+
             var res = form.ShowDialog();
             if (res == DialogResult.OK)
             {
@@ -282,7 +319,7 @@ namespace KochBD
                 var connection = new SqlConnection(connectionString);
                 var birthdate = Convert.ToDateTime(form.birthDateTextBox.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
                 connection.Open();
-                var request = string.Format(@"UPDATE  Kochenyuk_abonent SET surname=N'{0}',name=N'{1}', patronymic=N'{2}', adress=N'{3}', comments=N'{4}', birthdate='{5}' WHERE id={6}
+                request = string.Format(@"UPDATE  Kochenyuk_abonent SET surname=N'{0}',name=N'{1}', patronymic=N'{2}', adress=N'{3}', comments=N'{4}', birthdate='{5}' WHERE id={6}
                                               UPDATE  Kochenyuk_contact SET Phone=N'{7}', type=N'{8}'",
                                               surname, name, patronymic, adress, comment,birthdate, id, phone, type);
                 var command = new SqlCommand(request, connection);
