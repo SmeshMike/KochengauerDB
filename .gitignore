@@ -17,7 +17,7 @@
 mono_crash.*
 
 # Build results
-bin/Debug/**
+**/Debug/**
 Debug/
 DebugPublic/
 Release/
