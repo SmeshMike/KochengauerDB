@@ -22,4 +22,3 @@ C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.exe
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.pdb
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.MainForm.resources
 C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.RedactorForm.resources
-C:\Repository\KochengauerDB\KochBD\obj\Debug\KochBD.csprojAssemblyReference.cache
