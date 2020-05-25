@@ -407,6 +407,7 @@ namespace KochBD
             updateAbonentDB();
             updateContactDB();
             updateDirectoryDB();
+            updateProviderDB();
         }
 
         private void editButton_Click(object sender, EventArgs e)
