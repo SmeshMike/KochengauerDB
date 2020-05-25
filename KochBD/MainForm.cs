@@ -91,6 +91,7 @@ namespace KochBD
             directDVG.Columns["patronymic"].HeaderText = "Отчество";
             directDVG.Columns["surname"].HeaderText = "Фамилия";
             directDVG.Columns["adress"].HeaderText = "Адрес";
+            directDVG.Columns["id"].Visible = false;
             //directDVG.Columns["phone"].HeaderText = "Телефон";
             directDVG.Columns["type"].HeaderText = "Тип";
         }
@@ -475,8 +476,8 @@ namespace KochBD
                     updateAbonentDB();
 
                 }
-                    
-                
+
+
             }
             if (tabName == "Контакты")
             {
@@ -493,7 +494,7 @@ namespace KochBD
                 form.adressTextBox.Visible = false;
                 form.commentTextBox.Visible = false;
                 form.birthDateTextBox.Visible = false;
-                              
+
                 form.numberTextBox.Text = row.Cells["phone"].Value.ToString();
                 form.numberTextBox.ForeColor = Color.Black;
                 form.numberTextBox.Font = new Font(form.numberTextBox.Font, FontStyle.Regular);
@@ -546,9 +547,9 @@ namespace KochBD
 
                 }
 
-                 
-                
-                
+
+
+
             }
 
             if (tabName == "Провайдеры")
@@ -588,11 +589,11 @@ namespace KochBD
                     command.ExecuteNonQuery();
                     connection.Close();
                     updateProviderDB();
-                    
+
                 }
 
-                    
-                
+
+
             }
 
             if (tabName == "Справочник")
@@ -602,104 +603,104 @@ namespace KochBD
                 if (row == null)
                 {
                     MessageBox.Show(" Сначала выберите строчку", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                    form.surnameTextBox.Text = row.Cells["surname"].Value.ToString();
-                    form.surnameTextBox.ForeColor = Color.Black;
-                    form.surnameTextBox.Font = new Font(form.surnameTextBox.Font, FontStyle.Regular);
-
-                    form.nameTextBox.Text = row.Cells["name"].Value.ToString();
-                    form.nameTextBox.ForeColor = Color.Black;
-                    form.nameTextBox.Font = new Font(form.nameTextBox.Font, FontStyle.Regular);
-
-                    form.patronymicTextBox.Text = row.Cells["patronymic"].Value.ToString();
-                    form.patronymicTextBox.ForeColor = Color.Black;
-                    form.patronymicTextBox.Font = new Font(form.patronymicTextBox.Font, FontStyle.Regular);
-
-                    form.adressTextBox.Text = row.Cells["adress"].Value.ToString();
-                    form.adressTextBox.ForeColor = Color.Black;
-                    form.adressTextBox.Font = new Font(form.adressTextBox.Font, FontStyle.Regular);
-
-                    form.commentTextBox.Text = row.Cells["comments"].Value.ToString();
-                    form.commentTextBox.ForeColor = Color.Black;
-                    form.commentTextBox.Font = new Font(form.commentTextBox.Font, FontStyle.Regular);
-
-                    form.birthDateTextBox.Text = row.Cells["birthdate"].Value.ToString();
-                    form.birthDateTextBox.ForeColor = Color.Black;
-                    form.birthDateTextBox.Font = new Font(form.birthDateTextBox.Font, FontStyle.Regular);
-
-                    form.numberTextBox.Text = row.Cells["phone"].Value.ToString();
-                    form.numberTextBox.ForeColor = Color.Black;
-                    form.numberTextBox.Font = new Font(form.numberTextBox.Font, FontStyle.Regular);
-
-
-
-                    var request = "SELECT * FROM Kochenyuk_provider";
-                    var adapter = new SqlDataAdapter(request, connectionString);
-                    var prTable = new DataTable();
-                    adapter.Fill(prTable);
-                    var dict = new Dictionary<int, string>();
-                    foreach (DataRow tempRow in prTable.Rows)
-                    {
-                        dict.Add((int)tempRow["id"], tempRow["company"].ToString());
-                    }
-                    form.ProviderData = dict;
-                    dict.Clear();
-
-                    List<string> qwe = new List<string>();
-
-                    request = "SELECT DISTINCT  type From Kochenyuk_contact";
-                    adapter = new SqlDataAdapter(request, connectionString);
-                    prTable = new DataTable();
-                    adapter.Fill(prTable);
-
-                    foreach (DataRow tempRow in prTable.Rows)
-                    {
-                        qwe.Add(tempRow["type"].ToString());
-                    }
-                    form.TypeData = qwe;
-
-
-                    form.providerComboBox.Text = row.Cells["company"].Value.ToString();
-                    form.providerComboBox.ForeColor = Color.Black;
-                    form.providerComboBox.Font = new Font(form.providerComboBox.Font, FontStyle.Regular);
-
-                    form.typeComboBox.Text = row.Cells["type"].Value.ToString();
-                    form.typeComboBox.ForeColor = Color.Black;
-                    form.typeComboBox.Font = new Font(form.typeComboBox.Font, FontStyle.Regular);
-
-
-                    var res = form.ShowDialog();
-                    if (res == DialogResult.OK)
-                    {
-                        var surname = form.surnameTextBox.Text;
-                        var name = form.nameTextBox.Text;
-                        var patronymic = form.patronymicTextBox.Text;
-                        var adress = form.adressTextBox.Text;
-                        var comment = form.commentTextBox.Text;
-                        var phone = form.numberTextBox.Text;
-                        var type = form.typeComboBox.Text;
-                        var id = row.Cells["id"].Value.ToString();
-                        var connection = new SqlConnection(connectionString);
-                        var birthdate = Convert.ToDateTime(form.birthDateTextBox.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
-                        connection.Open();
-                        request = string.Format(@"UPDATE  Kochenyuk_abonent SET surname=N'{0}',name=N'{1}', patronymic=N'{2}', adress=N'{3}', comments=N'{4}', birthdate='{5}' WHERE id={6}
-                                              UPDATE  Kochenyuk_contact SET Phone=N'{7}', type=N'{8}'",
-                                                      surname, name, patronymic, adress, comment, birthdate, id, phone, type);
-                        var command = new SqlCommand(request, connection);
-                        command.ExecuteNonQuery();
-                        connection.Close();
-                        updateAbonentDB();
-                        updateDirectoryDB();
-                        updateContactDB();
-
-                    }
-
                     return;
                 }
+
+                form.surnameTextBox.Text = row.Cells["surname"].Value.ToString();
+                form.surnameTextBox.ForeColor = Color.Black;
+                form.surnameTextBox.Font = new Font(form.surnameTextBox.Font, FontStyle.Regular);
+
+                form.nameTextBox.Text = row.Cells["name"].Value.ToString();
+                form.nameTextBox.ForeColor = Color.Black;
+                form.nameTextBox.Font = new Font(form.nameTextBox.Font, FontStyle.Regular);
+
+                form.patronymicTextBox.Text = row.Cells["patronymic"].Value.ToString();
+                form.patronymicTextBox.ForeColor = Color.Black;
+                form.patronymicTextBox.Font = new Font(form.patronymicTextBox.Font, FontStyle.Regular);
+
+                form.adressTextBox.Text = row.Cells["adress"].Value.ToString();
+                form.adressTextBox.ForeColor = Color.Black;
+                form.adressTextBox.Font = new Font(form.adressTextBox.Font, FontStyle.Regular);
+
+                form.commentTextBox.Text = row.Cells["comments"].Value.ToString();
+                form.commentTextBox.ForeColor = Color.Black;
+                form.commentTextBox.Font = new Font(form.commentTextBox.Font, FontStyle.Regular);
+
+                form.birthDateTextBox.Text = row.Cells["birthdate"].Value.ToString();
+                form.birthDateTextBox.ForeColor = Color.Black;
+                form.birthDateTextBox.Font = new Font(form.birthDateTextBox.Font, FontStyle.Regular);
+
+                form.numberTextBox.Text = row.Cells["phone"].Value.ToString();
+                form.numberTextBox.ForeColor = Color.Black;
+                form.numberTextBox.Font = new Font(form.numberTextBox.Font, FontStyle.Regular);
+
+
+
+                var request = "SELECT * FROM Kochenyuk_provider";
+                var adapter = new SqlDataAdapter(request, connectionString);
+                var prTable = new DataTable();
+                adapter.Fill(prTable);
+                var dict = new Dictionary<int, string>();
+                foreach (DataRow tempRow in prTable.Rows)
+                {
+                    dict.Add((int)tempRow["id"], tempRow["company"].ToString());
+                }
+                form.ProviderData = dict;
+                dict.Clear();
+
+                List<string> qwe = new List<string>();
+
+                request = "SELECT DISTINCT  type From Kochenyuk_contact";
+                adapter = new SqlDataAdapter(request, connectionString);
+                prTable = new DataTable();
+                adapter.Fill(prTable);
+
+                foreach (DataRow tempRow in prTable.Rows)
+                {
+                    qwe.Add(tempRow["type"].ToString());
+                }
+                form.TypeData = qwe;
+
+
+                form.providerComboBox.Text = row.Cells["company"].Value.ToString();
+                form.providerComboBox.ForeColor = Color.Black;
+                form.providerComboBox.Font = new Font(form.providerComboBox.Font, FontStyle.Regular);
+
+                form.typeComboBox.Text = row.Cells["type"].Value.ToString();
+                form.typeComboBox.ForeColor = Color.Black;
+                form.typeComboBox.Font = new Font(form.typeComboBox.Font, FontStyle.Regular);
+
+
+                var res = form.ShowDialog();
+                if (res == DialogResult.OK)
+                {
+                    var surname = form.surnameTextBox.Text;
+                    var name = form.nameTextBox.Text;
+                    var patronymic = form.patronymicTextBox.Text;
+                    var adress = form.adressTextBox.Text;
+                    var comment = form.commentTextBox.Text;
+                    var phone = form.numberTextBox.Text;
+                    var type = form.typeComboBox.Text;
+                    var id = row.Cells["id"].Value.ToString();
+                    var connection = new SqlConnection(connectionString);
+                    var birthdate = Convert.ToDateTime(form.birthDateTextBox.Text).ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    connection.Open();
+                    request = string.Format(@"UPDATE  Kochenyuk_abonent SET surname=N'{0}',name=N'{1}', patronymic=N'{2}', adress=N'{3}', comments=N'{4}', birthdate='{5}' WHERE id={6}
+                                              UPDATE  Kochenyuk_contact SET Phone=N'{7}', type=N'{8}'",
+                                                  surname, name, patronymic, adress, comment, birthdate, id, phone, type);
+                    var command = new SqlCommand(request, connection);
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                    updateAbonentDB();
+                    updateDirectoryDB();
+                    updateContactDB();
+
+
+                }
             }
-            
-            
         }
+
+
         private void deleteButton_Click(object sender, EventArgs e)
         {
             var tabName = Catalog.SelectedTab.Text;
