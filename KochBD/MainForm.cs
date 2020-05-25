@@ -716,7 +716,8 @@ namespace KochBD
                 var id = row.Cells["id"].Value.ToString();
                 var connection = new SqlConnection(connectionString);
                 connection.Open();
-                var request = string.Format(@"DELETE dbo.Kochenyuk_abonent where id = N'{0}'", id);
+                var request = string.Format(@"  DELETE dbo.Kochenyuk_abonent_has_contact where abonent_id = N'{0}'
+                                                DELETE dbo.Kochenyuk_abonent where id = N'{0}'", id);
 
                 var command = new SqlCommand(request, connection);
                 command.ExecuteNonQuery();
@@ -734,7 +735,8 @@ namespace KochBD
                 var phone = row.Cells["phone"].Value.ToString();
                 var connection = new SqlConnection(connectionString);
                 connection.Open();
-                var request = string.Format(@"DELETE dbo.Kochenyuk_contact where Phone = N'{0}'", phone);
+                var request = string.Format(@"  DELETE dbo.Kochenyuk_abonent_has_contact where contact_id = (select id from dbo.Kochenyuk_contact where Phone = N'{0}')
+                                                DELETE dbo.Kochenyuk_contact where Phone = N'{0}'", phone);
 
                 var command = new SqlCommand(request, connection);
                 command.ExecuteNonQuery();
@@ -751,10 +753,11 @@ namespace KochBD
                     MessageBox.Show("Выберите строчку", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                var name = row.Cells["Название"].Value.ToString();
+                var name = row.Cells["Company"].Value.ToString();
                 var connection = new SqlConnection(connectionString);
                 connection.Open();
-                var request = string.Format(@"DELETE dbo.Kochenyuk_provider where company = N'{0}'", name);
+                var request = string.Format(@"  DELETE dbo.Kochenyuk_contact where provider_id = (select id from dbo.Kochenyuk_provider where Company = N'{0}')
+                                                DELETE dbo.Kochenyuk_provider where company = N'{0}'", name);
 
                 var command = new SqlCommand(request, connection);
                 command.ExecuteNonQuery();
