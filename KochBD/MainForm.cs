@@ -150,6 +150,7 @@ namespace KochBD
                 updateAbonentDB();
                 updateContactDB();
                 updateDirectoryDB();
+                updateProviderDB();
             }
         }
 
